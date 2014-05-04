@@ -1,8 +1,10 @@
 package com.cgs.server;
 
+import com.cgs.kerberos.server.TicketGrantTicketServer;
+
 public class AuthenticationServerTest {
 	public static void main(String[] args) throws Exception {
-		AuthenticationServer a = new AuthenticationServer(8906);
+		TicketGrantTicketServer a = new TicketGrantTicketServer(8906);
 		new Thread(a).start();
 		
 		Thread.sleep(10000);

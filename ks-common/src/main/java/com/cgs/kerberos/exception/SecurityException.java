@@ -3,6 +3,11 @@ package com.cgs.kerberos.exception;
 public abstract class SecurityException extends RuntimeException{
 	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -588963529358718668L;
+
+	/**
 	 * Constructor for SecurityException.
 	 * @param msg the detail message
 	 */

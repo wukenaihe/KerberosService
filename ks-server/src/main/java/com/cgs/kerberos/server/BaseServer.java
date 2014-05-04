@@ -1,4 +1,4 @@
-package com.cgs.server;
+package com.cgs.kerberos.server;
 
 public abstract class BaseServer implements Runnable{
 	final int port;

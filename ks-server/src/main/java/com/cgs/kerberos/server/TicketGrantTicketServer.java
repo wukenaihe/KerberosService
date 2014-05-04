@@ -1,4 +1,4 @@
-package com.cgs.server;
+package com.cgs.kerberos.server;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -9,14 +9,14 @@ import java.net.SocketException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AuthenticationServer extends BaseServer{
-	private static Logger logger = LoggerFactory.getLogger(AuthenticationServer.class);
+public class TicketGrantTicketServer extends BaseServer{
+	private static Logger logger = LoggerFactory.getLogger(TicketGrantTicketServer.class);
 	
 	boolean closed = false;
 	boolean serverSocketSucessfullyOpened = false;
 	ServerSocket serverSocket;
 	
-	public AuthenticationServer(int port) {
+	public TicketGrantTicketServer(int port) {
 		super(port);
 	}
 
@@ -36,7 +36,7 @@ public class AuthenticationServer extends BaseServer{
 				// (e.g. removal whole iterating on the list causes
 				// java.util.ConcurrentModificationException
 				
-				new Thread(new SocketNode(socket)).start();
+				new Thread(new TGTHandler(socket)).start();
 			}
 		} catch (SocketException e) {
 			if ("socket closed".equals(e.getMessage())) {
@@ -49,5 +49,21 @@ public class AuthenticationServer extends BaseServer{
 		} catch (Exception e) {
 			logger.error("Caught an unexpectged exception.", e);
 		}
+	}
+	
+	public void close() {
+		closed = true;
+		if (serverSocket != null) {
+			try {
+				serverSocket.close();
+			} catch (IOException e) {
+				logger.error("Failed to close serverSocket", e);
+			}
+		}
+
+	}
+	
+	public boolean isServerSocketSucessfullyOpened() {
+		return serverSocketSucessfullyOpened;
 	}
 }

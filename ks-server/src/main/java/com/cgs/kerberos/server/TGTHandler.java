@@ -1,4 +1,4 @@
-package com.cgs.server;
+package com.cgs.kerberos.server;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -15,8 +15,14 @@ import com.cgs.kerberos.bean.FirstRequest;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 
-public class SocketNode implements Runnable{
-	private static Logger logger = LoggerFactory.getLogger(SocketNode.class);
+/**
+ * TGS 请求处理器
+ * 
+ * @author xumh
+ *
+ */
+public class TGTHandler implements Runnable{
+	private static Logger logger = LoggerFactory.getLogger(TGTHandler.class);
 	
 	final Socket socket;
 	
@@ -29,7 +35,7 @@ public class SocketNode implements Runnable{
 	static final int RESET_FREQUENCY = 1000;
 	
 	
-	public SocketNode(Socket socket){
+	public TGTHandler(Socket socket){
 		this.socket=socket;
 		
 		kryo = new Kryo();
@@ -69,13 +75,14 @@ public class SocketNode implements Runnable{
 				ois.read(bytes);
 				Input input  = new Input(new ByteArrayInputStream(bytes), 1024);
 				FirstRequest obj=(FirstRequest) kryo.readClassAndObject(input);
-				System.out.println(obj);
+				obj.setIp(socket.getInetAddress().toString());//客户端传送的密码是不可靠的，需要根据socket获取
+				
 				ois.close();
 				input.close();
 				socket.close();
 				break;
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.error(e.getMessage(), e);
 			}
 		}
 	}

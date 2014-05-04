@@ -3,42 +3,24 @@ package com.cgs.kerberos.bean;
 import java.util.Date;
 
 public class FirstResponse {
-	private byte[] tgt;
-	private String tgsName;
-	private Date timeStamp;
-	private long lifeTime;
-	private String tgsSessionKey;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6332028047953466335L;
 	
+	private byte[] tgt;//TicketGrantingTicket对象序列化，用服务器自己密码加密后的内容
+	private byte[] tgtReponse;//TgtReponse对象序列化，用客户端密码加密后的内容
 	public byte[] getTgt() {
 		return tgt;
 	}
 	public void setTgt(byte[] tgt) {
 		this.tgt = tgt;
 	}
-	public String getTgsName() {
-		return tgsName;
+	public byte[] getTgtReponse() {
+		return tgtReponse;
 	}
-	public void setTgsName(String tgsName) {
-		this.tgsName = tgsName;
+	public void setTgtReponse(byte[] tgtReponse) {
+		this.tgtReponse = tgtReponse;
 	}
-	public Date getTimeStamp() {
-		return timeStamp;
-	}
-	public void setTimeStamp(Date timeStamp) {
-		this.timeStamp = timeStamp;
-	}
-	public long getLifeTime() {
-		return lifeTime;
-	}
-	public void setLifeTime(long lifeTime) {
-		this.lifeTime = lifeTime;
-	}
-	public String getTgsSessionKey() {
-		return tgsSessionKey;
-	}
-	public void setTgsSessionKey(String tgsSessionKey) {
-		this.tgsSessionKey = tgsSessionKey;
-	}
-	
 	
 }

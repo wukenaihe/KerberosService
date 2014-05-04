@@ -17,6 +17,8 @@ public class FirstRequest implements Serializable{
 	private String name;
 	private String ip;
 	private Date timestamp;
+	private long lifeTime;
+	
 	public String getName() {
 		return name;
 	}
@@ -37,22 +39,22 @@ public class FirstRequest implements Serializable{
 	}
 	
 	
+	
+	@Override
 	public String toString() {
-		return "FirstRequest [name=" + name + ", ip=" + ip + ", timestamp=" + timestamp + "]";
+		return "FirstRequest [name=" + name + ", ip=" + ip + ", timestamp=" + timestamp + ", lifeTime=" + lifeTime + "]";
 	}
-	
-	
-	
-	
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((ip == null) ? 0 : ip.hashCode());
+		result = prime * result + (int) (lifeTime ^ (lifeTime >>> 32));
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
 		return result;
 	}
-	
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -66,6 +68,8 @@ public class FirstRequest implements Serializable{
 				return false;
 		} else if (!ip.equals(other.ip))
 			return false;
+		if (lifeTime != other.lifeTime)
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -77,6 +81,12 @@ public class FirstRequest implements Serializable{
 		} else if (!timestamp.equals(other.timestamp))
 			return false;
 		return true;
+	}
+	public long getLifeTime() {
+		return lifeTime;
+	}
+	public void setLifeTime(long lifeTime) {
+		this.lifeTime = lifeTime;
 	}
 	public static FirstRequest getInstance(){
 		FirstRequest f=new FirstRequest();
