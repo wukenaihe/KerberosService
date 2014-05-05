@@ -12,6 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cgs.kerberos.bean.FirstRequest;
+import com.cgs.kerberos.bean.FirstResponse;
+import com.cgs.kerberos.exception.KerberosException;
+import com.cgs.kerberos.handle.TgtProcessor;
+import com.cgs.kerberos.util.KryoSerializeTool;
+import com.cgs.kerberos.util.KryoUtil;
+import com.cgs.kerberos.util.Serializer;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 
@@ -19,38 +25,36 @@ import com.esotericsoftware.kryo.io.Input;
  * TGS 请求处理器
  * 
  * @author xumh
- *
+ * 
  */
-public class TGTHandler implements Runnable{
+public class TGTHandler implements Runnable {
 	private static Logger logger = LoggerFactory.getLogger(TGTHandler.class);
-	
+
 	final Socket socket;
-	
+
 	private OutputStream oos;
 	private InputStream ois;
-	private Kryo kryo;
-	
+	private Serializer serializer;// 可更换序列化方式
+	private TgtProcessor tgtProcessor;
+
 	boolean closed = false;
 
 	static final int RESET_FREQUENCY = 1000;
-	
-	
-	public TGTHandler(Socket socket){
-		this.socket=socket;
-		
-		kryo = new Kryo();
-		kryo.setReferences(false);
-		kryo.setRegistrationRequired(false);
-		
+
+	public TGTHandler(Socket socket) {
+		this.socket = socket;
+
+		serializer = new KryoSerializeTool();
+
 		try {
 			ois = socket.getInputStream();
 			oos = socket.getOutputStream();
 		} catch (Exception e) {
 			logger.error("Could not open ObjectInputStream to " + socket, e);
 		}
-		
+
 	}
-	
+
 	void close() {
 		if (closed) {
 			return;
@@ -67,23 +71,35 @@ public class TGTHandler implements Runnable{
 	}
 
 	public void run() {
-		byte[] bytes=new byte[1024*10];
-		
-		while (!closed) {
-			// read an event from the wire
+		byte[] bytes = new byte[1024 * 10];
+
+		try {
+			ois.read(bytes);
+			FirstRequest obj = serializer.byte2Object(bytes);
+			FirstResponse responseBody = tgtProcessor.check(obj);
+
+			writeResponse(responseBody);
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+		} catch (KerberosException e) {
+			logger.debug(e.getMessage(), e);
+			writeResponse(e);
+		}finally{
 			try {
-				ois.read(bytes);
-				Input input  = new Input(new ByteArrayInputStream(bytes), 1024);
-				FirstRequest obj=(FirstRequest) kryo.readClassAndObject(input);
-				obj.setIp(socket.getInetAddress().toString());//客户端传送的密码是不可靠的，需要根据socket获取
-				
 				ois.close();
-				input.close();
 				socket.close();
-				break;
 			} catch (IOException e) {
-				logger.error(e.getMessage(), e);
+				logger.error(e.getMessage(),e);
 			}
+		}
+	}
+
+	private void writeResponse(Object outgoingObject) {
+		try {
+			byte[] bytes = serializer.object2Byte(outgoingObject);
+			oos.write(bytes);
+		} catch (IOException e) {
+			logger.error("Failed to send acknowledgement", e);
 		}
 	}
 
