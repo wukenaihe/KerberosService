@@ -1,5 +1,6 @@
 package com.cgs.kerberos.handle;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Random;
 
@@ -8,14 +9,21 @@ import com.cgs.kerberos.bean.FirstResponse;
 import com.cgs.kerberos.bean.TgtResponse;
 import com.cgs.kerberos.bean.TicketGrantingTicket;
 import com.cgs.kerberos.exception.NoSuchUser;
-import com.cgs.kerberos.util.KryoUtil;
+import com.cgs.kerberos.util.KryoSerializer;
 import com.cgs.kerberos.util.SecurityUtil;
+import com.cgs.kerberos.util.Serializer;
 
 public class BaseTgtProcessor implements TgtProcessor{
 	private DatabaseProcessor dbp;
 	private String name;
 	private String password;
+	private Serializer serializer=new KryoSerializer();
 	
+	//修改
+	public void setSerializer(Serializer serializer) {
+		this.serializer = serializer;
+	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -34,6 +42,15 @@ public class BaseTgtProcessor implements TgtProcessor{
 
 	public void setDbp(DatabaseProcessor dbp) {
 		this.dbp = dbp;
+	}
+	
+	
+	public BaseTgtProcessor(String databasePath){
+		this.dbp=new FileDatabaseProcessor();
+	}
+	
+	public BaseTgtProcessor(){
+		this.dbp=new FileDatabaseProcessor();
 	}
 
 	public FirstResponse check(FirstRequest firstRequest) throws NoSuchUser {
@@ -110,7 +127,7 @@ public class BaseTgtProcessor implements TgtProcessor{
 	 * @return byte[] 序列加密结果
 	 */
 	protected byte[] serialAndEncryptTGT(TicketGrantingTicket tgt){
-		byte[] bytes=KryoUtil.getInstance().object2Byte(tgt);
+		byte[] bytes=serializer.object2Byte(tgt);
 		byte[] encryptedBytes=SecurityUtil.encryptAes(bytes, getPassword());
 		return encryptedBytes;
 	}
@@ -145,7 +162,7 @@ public class BaseTgtProcessor implements TgtProcessor{
 	 * @return
 	 */
 	protected byte[] serialAndEncryptTgtResponse(TgtResponse tgtResponse,String clientName){
-		byte[] bytes=KryoUtil.getInstance().object2Byte(tgtResponse);
+		byte[] bytes=serializer.object2Byte(tgtResponse);
 		String key=dbp.getPassword(clientName);
 		byte[] encrytedBytes=SecurityUtil.encryptAes(bytes, key);
 		return encrytedBytes;

@@ -7,11 +7,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.cgs.kerberos.util.KryoUtil;
+import com.cgs.kerberos.util.KryoSerializer;
 
 public class KryoUtilTest {
 	
-	private KryoUtil kryoUtil=KryoUtil.getInstance();
+	private KryoSerializer kryoUtil=new KryoSerializer();
 	
 	@Test
 	public void serialize(){

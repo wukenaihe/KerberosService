@@ -13,17 +13,22 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 
 
-public class KryoUtil {
-	private static Logger logger=LoggerFactory.getLogger(KryoUtil.class);
-	
-	private static KryoUtil instance=new KryoUtil();
-	
+public class KryoSerializer implements Serializer{
+	private static Logger logger=LoggerFactory.getLogger(KryoSerializer.class);
+		
+	/**
+	 * Kryo是非线程安全的
+	 */
 	private Kryo kryo;
 	
-	private KryoUtil(){
+	public KryoSerializer(){
 		kryo = new Kryo();
 		kryo.setReferences(false);
 		kryo.setRegistrationRequired(false);
+	}
+	
+	public KryoSerializer(Kryo kryo){
+		this.kryo=kryo;
 	}
 	
 	public byte[] object2Byte(Object obj){
@@ -44,8 +49,5 @@ public class KryoUtil {
 		Input input  = new Input(new ByteArrayInputStream(bytes), 1024);
 		return (T) kryo.readClassAndObject(input);
 	}
-	
-	public static KryoUtil getInstance(){
-		return instance;
-	}
+
 }

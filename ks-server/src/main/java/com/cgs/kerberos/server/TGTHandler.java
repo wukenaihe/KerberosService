@@ -14,9 +14,9 @@ import org.slf4j.LoggerFactory;
 import com.cgs.kerberos.bean.FirstRequest;
 import com.cgs.kerberos.bean.FirstResponse;
 import com.cgs.kerberos.exception.KerberosException;
+import com.cgs.kerberos.handle.BaseTgtProcessor;
 import com.cgs.kerberos.handle.TgtProcessor;
-import com.cgs.kerberos.util.KryoSerializeTool;
-import com.cgs.kerberos.util.KryoUtil;
+import com.cgs.kerberos.util.KryoSerializer;
 import com.cgs.kerberos.util.Serializer;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
@@ -44,7 +44,8 @@ public class TGTHandler implements Runnable {
 	public TGTHandler(Socket socket) {
 		this.socket = socket;
 
-		serializer = new KryoSerializeTool();
+		serializer = new KryoSerializer();
+		tgtProcessor=new BaseTgtProcessor();
 
 		try {
 			ois = socket.getInputStream();

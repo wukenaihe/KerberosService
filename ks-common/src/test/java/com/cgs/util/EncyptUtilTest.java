@@ -7,11 +7,11 @@ import org.junit.Test;
 
 import com.cgs.kerberos.bean.FirstRequest;
 import com.cgs.kerberos.util.SecurityUtil;
-import com.cgs.kerberos.util.KryoUtil;
+import com.cgs.kerberos.util.KryoSerializer;
 
 public class EncyptUtilTest {
 	private FirstRequest f = FirstRequest.getInstance();
-	private KryoUtil kryUtil = KryoUtil.getInstance();
+	private KryoSerializer kryUtil = new KryoSerializer();
 	private final String key = "1345678";
 
 	@Test

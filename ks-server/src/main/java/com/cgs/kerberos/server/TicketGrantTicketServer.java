@@ -9,15 +9,25 @@ import java.net.SocketException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.cgs.kerberos.handle.BaseTgtProcessor;
+import com.cgs.kerberos.handle.TgtProcessor;
+
 public class TicketGrantTicketServer extends BaseServer{
 	private static Logger logger = LoggerFactory.getLogger(TicketGrantTicketServer.class);
 	
-	boolean closed = false;
-	boolean serverSocketSucessfullyOpened = false;
-	ServerSocket serverSocket;
+	private boolean closed = false;
+	private boolean serverSocketSucessfullyOpened = false;
+	private ServerSocket serverSocket;
+	private TgtProcessor tgtProcessor;
 	
+	//可改变实现方式
+	public void setTgtProcessor(TgtProcessor tgtProcessor) {
+		this.tgtProcessor = tgtProcessor;
+	}
+
 	public TicketGrantTicketServer(int port) {
 		super(port);
+		tgtProcessor=new BaseTgtProcessor();
 	}
 
 	public void run() {

@@ -1,5 +1,11 @@
 package com.cgs.kerberos.util;
 
+/**
+ * 一个系统，必然只会用一种序列化方式
+ * 
+ * @author xumh
+ *
+ */
 public interface Serializer {
 	/**
 	 * 将对象序列化程byte[]数组
