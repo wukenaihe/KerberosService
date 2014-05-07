@@ -5,7 +5,7 @@ import com.cgs.kerberos.client.bean.FirstResponseWrapper;
 import com.cgs.kerberos.exception.KerberosException;
 
 public interface KerberosClient {
-	FirstResponseWrapper getTgt(String name) throws KerberosException;
+	FirstResponseWrapper getTgt() throws KerberosException;
 	
-	FirstResponseWrapper getTgt(String name,int lifeTime) throws KerberosException;
+	FirstResponseWrapper getTgt(int lifeTime) throws KerberosException;
 }

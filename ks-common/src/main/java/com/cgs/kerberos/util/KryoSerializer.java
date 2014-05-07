@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.cgs.kerberos.bean.FirstRequest;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
@@ -25,6 +26,7 @@ public class KryoSerializer implements Serializer{
 		kryo = new Kryo();
 		kryo.setReferences(false);
 		kryo.setRegistrationRequired(false);
+//		kryo.register(FirstRequest.class,1);
 	}
 	
 	public KryoSerializer(Kryo kryo){
@@ -45,9 +47,9 @@ public class KryoSerializer implements Serializer{
 		return reBytes;
 	}
 	
-	public <T> T byte2Object(byte[] bytes){
+	public Object byte2Object(byte[] bytes){
 		Input input  = new Input(new ByteArrayInputStream(bytes), 1024);
-		return (T) kryo.readClassAndObject(input);
+		return kryo.readClassAndObject(input);
 	}
 
 }

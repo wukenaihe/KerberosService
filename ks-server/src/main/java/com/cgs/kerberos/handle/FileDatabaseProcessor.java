@@ -22,7 +22,7 @@ public class FileDatabaseProcessor implements DatabaseProcessor {
 
 	private static Logger logger = LoggerFactory.getLogger(FileDatabaseProcessor.class);
 
-	private static final String DEFAULT_PATH = "ks-database.bin";
+	private static final String DEFAULT_PATH = "ks-database.dat";
 	private String path;
 	private final String key = "zhejiangchenggong";
 	
@@ -67,9 +67,10 @@ public class FileDatabaseProcessor implements DatabaseProcessor {
 	}
 
 	public String getPassword(String name) throws DatabaseException {
+		String passWord;
 		try {
 			LinkedHashMap<String, String> map = loadDatabase();
-			String passWord=map.get(name);
+			passWord=map.get(name);
 			if(passWord==null){
 				throw new DatabaseException(name+" does not exist in KDC Database");
 			}
@@ -77,7 +78,7 @@ public class FileDatabaseProcessor implements DatabaseProcessor {
 			logger.error(e.getMessage(), e);
 			throw new DatabaseException("Can not read KDC database");
 		}
-		return null;
+		return passWord;
 	}
 
 	private LinkedHashMap<String, String> loadDatabase() throws Exception {

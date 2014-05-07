@@ -16,7 +16,7 @@ import com.cgs.util.KryoUtilTest;
 public class TgtClientAesKryoProcessor implements TgtClientProcessor{
 	
 	private ClientDatabaseProcessor databaseProcessor;
-	private Serializer serializer;
+	private Serializer serializer=new KryoSerializer();
 
 	public void setSerializer(Serializer serializer) {
 		this.serializer = serializer;
@@ -37,11 +37,10 @@ public class TgtClientAesKryoProcessor implements TgtClientProcessor{
 
 	public FirstResponseWrapper getTgtResponse(FirstResponse firstResponse) {
 		String password=databaseProcessor.getPassord();
-		byte[] bytes=firstResponse.getTgt();
+		byte[] bytes=firstResponse.getTgtReponse();
 		try{
 			bytes=SecurityUtil.decryptAes(bytes, password);
-			Serializer serializer=new KryoSerializer();
-			TgtResponse result=serializer.byte2Object(bytes);
+			TgtResponse result=(TgtResponse) serializer.byte2Object(bytes);
 			FirstResponseWrapper firstResponseWrapper=new FirstResponseWrapper();
 			firstResponseWrapper.setTgt(firstResponse.getTgt());
 			firstResponseWrapper.setTgtResponse(result);
@@ -51,13 +50,19 @@ public class TgtClientAesKryoProcessor implements TgtClientProcessor{
 		}
 	}
 
-	public FirstRequest getFirstRequest(String name, String ip,long lifeTime) {
+	public FirstRequest getFirstRequest(long lifeTime) {
 		FirstRequest firstRequest=new FirstRequest();
-		firstRequest.setIp(ip);
+		String name=databaseProcessor.getName();
 		firstRequest.setName(name);
 		firstRequest.setTimestamp(new Date());
 		firstRequest.setLifeTime(lifeTime);
 		return firstRequest;
+	}
+	
+	public byte[] getFirstRequestByte(long lifeTime){
+		FirstRequest firstRequest=getFirstRequest(lifeTime);
+		byte[] bytes=serializer.object2Byte(firstRequest);
+		return bytes;
 	}
 	
 }

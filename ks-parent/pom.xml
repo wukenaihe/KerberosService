@@ -6,12 +6,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<modules>
-		<module>ks-common</module>
-		<module>ks-server</module>
-		<module>ks-client</module>
-		<module>ks-examples</module>
-	</modules>
+<!-- 	<modules> -->
+<!-- 		<module>ks-common</module> -->
+<!-- 		<module>ks-server</module> -->
+<!-- 		<module>ks-client</module> -->
+<!-- 		<module>ks-examples</module> -->
+<!-- 	</modules> -->
 
 	<developers>
 		<developer>

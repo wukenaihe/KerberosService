@@ -13,7 +13,9 @@ import org.slf4j.LoggerFactory;
 
 import com.cgs.kerberos.bean.FirstRequest;
 import com.cgs.kerberos.bean.FirstResponse;
+import com.cgs.kerberos.exception.DatabaseException;
 import com.cgs.kerberos.exception.KerberosException;
+import com.cgs.kerberos.exception.TgsException;
 import com.cgs.kerberos.handle.BaseTgtProcessor;
 import com.cgs.kerberos.handle.TgtProcessor;
 import com.cgs.kerberos.util.KryoSerializer;
@@ -76,16 +78,16 @@ public class TGTHandler implements Runnable {
 
 		try {
 			ois.read(bytes);
-			FirstRequest obj = serializer.byte2Object(bytes);
+			FirstRequest obj = (FirstRequest) serializer.byte2Object(bytes);
 			FirstResponse responseBody = tgtProcessor.check(obj);
 
 			writeResponse(responseBody);
-		} catch (IOException e) {
-			logger.error(e.getMessage(), e);
 		} catch (KerberosException e) {
 			logger.debug(e.getMessage(), e);
-			writeResponse(e);
-		}finally{
+			writeResponse(e.getMessage());
+		}catch (IOException e) {
+			logger.error(e.getMessage(), e);
+		} finally{
 			try {
 				ois.close();
 				socket.close();
@@ -99,6 +101,7 @@ public class TGTHandler implements Runnable {
 		try {
 			byte[] bytes = serializer.object2Byte(outgoingObject);
 			oos.write(bytes);
+			oos.flush();
 		} catch (IOException e) {
 			logger.error("Failed to send acknowledgement", e);
 		}

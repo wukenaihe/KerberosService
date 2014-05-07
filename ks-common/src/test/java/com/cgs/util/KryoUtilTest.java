@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.cgs.kerberos.bean.FirstRequest;
 import com.cgs.kerberos.util.KryoSerializer;
 
 public class KryoUtilTest {
@@ -15,16 +16,18 @@ public class KryoUtilTest {
 	
 	@Test
 	public void serialize(){
-		String test="Hello world";
-		System.out.println(Arrays.toString(kryoUtil.object2Byte(test)));
+		FirstRequest f=new FirstRequest();
+		f.setName("Ok");
+		System.out.println(Arrays.toString(kryoUtil.object2Byte(f)));
 	}
 	
 	@Test
 	public void unSerialize(){
-		String test="Hello World";
-		byte[] bytes=kryoUtil.object2Byte(test);
-		String decryptTest=kryoUtil.byte2Object(bytes);
-		Assert.assertTrue(test.equals(decryptTest));
+		FirstRequest f=new FirstRequest();
+		f.setName("Ok");
+		byte[] bytes=kryoUtil.object2Byte(f);
+		FirstRequest decryptTest=(FirstRequest) kryoUtil.byte2Object(bytes);
+		Assert.assertTrue(f.equals(decryptTest));
 	}
 	
 	

@@ -34,7 +34,7 @@ public class EncyptUtilTest {
 		encyptedBytes = SecurityUtil.encryptDes(bytes, key);
 		byte[] def = SecurityUtil.decryptDes(encyptedBytes, key);
 		Assert.assertNotNull(def);
-		FirstRequest defirst = kryUtil.byte2Object(def);
+		FirstRequest defirst = (FirstRequest) kryUtil.byte2Object(def);
 		Assert.assertTrue(f.equals(defirst));
 	}
 
@@ -54,7 +54,7 @@ public class EncyptUtilTest {
 		encyptedBytes = SecurityUtil.encryptAes(bytes, key);
 		byte[] def = SecurityUtil.decryptAes(encyptedBytes, key);
 		Assert.assertNotNull(def);
-		FirstRequest defirst = kryUtil.byte2Object(def);
+		FirstRequest defirst = (FirstRequest) kryUtil.byte2Object(def);
 		Assert.assertTrue(f.equals(defirst));
 	}
 }

@@ -7,5 +7,7 @@ import com.cgs.kerberos.client.bean.FirstResponseWrapper;
 public interface TgtClientProcessor {
 	FirstResponseWrapper getTgtResponse(FirstResponse firstResponse);
 	
-	FirstRequest getFirstRequest(String name,String ip,long lifeTime);
+	FirstRequest getFirstRequest(long lifeTime);
+	
+	byte[] getFirstRequestByte(long lifeTime);
 }

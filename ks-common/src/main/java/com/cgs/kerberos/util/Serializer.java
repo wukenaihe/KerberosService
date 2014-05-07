@@ -20,5 +20,5 @@ public interface Serializer {
 	 * @param bytes
 	 * @return
 	 */
-	public <T> T byte2Object(byte[] bytes);
+	public Object byte2Object(byte[] bytes);
 }

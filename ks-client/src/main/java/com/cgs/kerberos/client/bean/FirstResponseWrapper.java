@@ -1,5 +1,7 @@
 package com.cgs.kerberos.client.bean;
 
+import java.util.Arrays;
+
 import com.cgs.kerberos.bean.TgtResponse;
 
 public class FirstResponseWrapper {
@@ -16,6 +18,10 @@ public class FirstResponseWrapper {
 	}
 	public void setTgt(byte[] tgt) {
 		this.tgt = tgt;
+	}
+	
+	public String toString() {
+		return "FirstResponseWrapper [tgtResponse=" + tgtResponse + ", tgt=" + Arrays.toString(tgt) + "]";
 	}
 	
 	

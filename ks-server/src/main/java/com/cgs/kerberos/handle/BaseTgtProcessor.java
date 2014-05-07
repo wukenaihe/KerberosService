@@ -95,7 +95,7 @@ public class BaseTgtProcessor implements TgtProcessor{
 	 * @return
 	 */
 	protected String getPassword(){
-		return this.password;
+		return dbp.getSelfPassword();
 	}
 	
 	/**
