@@ -21,4 +21,12 @@ public interface Serializer {
 	 * @return
 	 */
 	public Object byte2Object(byte[] bytes);
+	
+	
+	/**
+	 * 获取序列化方式
+	 * 
+	 * @return
+	 */
+	public String getSerializeMethod();
 }

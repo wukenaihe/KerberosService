@@ -52,4 +52,8 @@ public class KryoSerializer implements Serializer{
 		return kryo.readClassAndObject(input);
 	}
 
+	public String getSerializeMethod() {
+		return "Kryo 2.23";
+	}
+
 }

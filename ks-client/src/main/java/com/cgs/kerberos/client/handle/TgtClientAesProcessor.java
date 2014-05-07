@@ -4,8 +4,10 @@ import java.util.Date;
 
 import com.cgs.kerberos.bean.FirstRequest;
 import com.cgs.kerberos.bean.FirstResponse;
+import com.cgs.kerberos.bean.SecondRequest;
 import com.cgs.kerberos.bean.TgtResponse;
 import com.cgs.kerberos.client.bean.FirstResponseWrapper;
+import com.cgs.kerberos.client.bean.SecondResponseWrapper;
 import com.cgs.kerberos.exception.AesSecurityException;
 import com.cgs.kerberos.exception.PasswordError;
 import com.cgs.kerberos.util.KryoSerializer;
@@ -13,10 +15,10 @@ import com.cgs.kerberos.util.SecurityUtil;
 import com.cgs.kerberos.util.Serializer;
 import com.cgs.util.KryoUtilTest;
 
-public class TgtClientAesKryoProcessor implements TgtClientProcessor{
+public class TgtClientAesProcessor implements TgtClientProcessor{
 	
 	private ClientDatabaseProcessor databaseProcessor;
-	private Serializer serializer=new KryoSerializer();
+	private Serializer serializer;
 
 	public void setSerializer(Serializer serializer) {
 		this.serializer = serializer;
@@ -26,11 +28,11 @@ public class TgtClientAesKryoProcessor implements TgtClientProcessor{
 		this.databaseProcessor = databaseProcessor;
 	}
 	
-	public TgtClientAesKryoProcessor(){
+	public TgtClientAesProcessor(){
 		this.databaseProcessor=new FileClientDatabaseProcessor();
 	}
 	
-	public TgtClientAesKryoProcessor(String path){
+	public TgtClientAesProcessor(String path){
 		this.databaseProcessor=new FileClientDatabaseProcessor(path);
 	}
 
@@ -51,18 +53,31 @@ public class TgtClientAesKryoProcessor implements TgtClientProcessor{
 	}
 
 	public FirstRequest getFirstRequest(long lifeTime) {
-		FirstRequest firstRequest=new FirstRequest();
 		String name=databaseProcessor.getName();
+
+		return getFirstRequest(name, lifeTime);
+	}
+	
+//	public byte[] getFirstRequestByte(long lifeTime){
+//		FirstRequest firstRequest=getFirstRequest(lifeTime);
+//		byte[] bytes=serializer.object2Byte(firstRequest);
+//		return bytes;
+//	}
+//	
+//	public byte[] getFirstRequestByte(String name,long lifeTime){
+//		FirstRequest firstRequest=getFirstRequest(name,lifeTime);
+//		byte[] bytes=serializer.object2Byte(firstRequest);
+//		return bytes;
+//	}
+
+	public FirstRequest getFirstRequest(String name, long lifeTime) {
+		FirstRequest firstRequest=new FirstRequest();
 		firstRequest.setName(name);
 		firstRequest.setTimestamp(new Date());
 		firstRequest.setLifeTime(lifeTime);
 		return firstRequest;
 	}
 	
-	public byte[] getFirstRequestByte(long lifeTime){
-		FirstRequest firstRequest=getFirstRequest(lifeTime);
-		byte[] bytes=serializer.object2Byte(firstRequest);
-		return bytes;
-	}
+	
 	
 }

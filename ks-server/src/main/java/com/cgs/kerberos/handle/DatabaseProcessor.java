@@ -35,4 +35,5 @@ public interface DatabaseProcessor {
 	 * @throws DatabaseException 无法获取密码则抛出异常
 	 */
 	String getPassword(String name) throws DatabaseException;
+	
 }

@@ -18,16 +18,10 @@ public class TicketGrantTicketServer extends BaseServer{
 	private boolean closed = false;
 	private boolean serverSocketSucessfullyOpened = false;
 	private ServerSocket serverSocket;
-	private TgtProcessor tgtProcessor;
 	
-	//可改变实现方式
-	public void setTgtProcessor(TgtProcessor tgtProcessor) {
-		this.tgtProcessor = tgtProcessor;
-	}
 
 	public TicketGrantTicketServer(int port) {
 		super(port);
-		tgtProcessor=new BaseTgtProcessor();
 	}
 
 	public void run() {
