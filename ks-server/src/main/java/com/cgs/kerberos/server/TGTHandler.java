@@ -48,6 +48,8 @@ public class TGTHandler extends BaseHandler implements Runnable {
 		try {
 			ois.read(bytes);
 			FirstRequest obj = (FirstRequest) serializer.byte2Object(bytes);
+			String ip=socket.getInetAddress().toString();
+			obj.setIp(ip);
 			FirstResponse responseBody = tgtProcessor.check(obj);
 
 			writeResponse(responseBody);

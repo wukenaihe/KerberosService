@@ -112,4 +112,21 @@ public class FileDatabaseProcessor implements DatabaseProcessor {
 		return map;
 	}
 
+	public String getSelfName() throws DatabaseException {
+		try {
+			LinkedHashMap<String, String> map = loadDatabase();
+			if(map.isEmpty()){
+				throw new DatabaseException("KDC Password does not exist");
+			}
+			Set<String> keys = map.keySet();
+			for (String string : keys) {
+				return string;
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new DatabaseException("Can not read KDC database");
+		}
+		return null;
+	}
+
 }

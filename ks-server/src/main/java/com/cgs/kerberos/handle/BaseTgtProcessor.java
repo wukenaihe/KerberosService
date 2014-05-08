@@ -111,7 +111,9 @@ public class BaseTgtProcessor implements TgtProcessor{
 		t.setClientName(f.getName());
 		t.setIp(f.getIp());
 		t.setLifeTime(f.getLifeTime());
-		t.setTgsName(getName());
+		
+		String tgsName=dbp.getSelfName();
+		t.setTgsName(tgsName);
 		t.setTgsSessionKey(sessionKey);
 		t.setTimeStamp(new Date());
 		return t;
@@ -144,7 +146,9 @@ public class BaseTgtProcessor implements TgtProcessor{
 	protected TgtResponse generateTgtResponse(FirstRequest f,byte[] sessionKey){
 		TgtResponse t=new TgtResponse();
 		t.setLifeTime(f.getLifeTime());
-		t.setTgsName(getName());
+		
+		String tgsName=dbp.getSelfName();
+		t.setTgsName(tgsName);
 		t.setTgsSessionKey(sessionKey);
 		t.setTimeStamp(new Date());
 		return t;

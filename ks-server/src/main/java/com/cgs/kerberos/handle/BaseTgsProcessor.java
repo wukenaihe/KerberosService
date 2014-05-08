@@ -136,7 +136,7 @@ public class BaseTgsProcessor implements TgsProcessor{
 		//序列化，加密Service Ticket
 		String serverPassword=dbp.getPassword(server);
 		byte[] decryptedSt=serializer.object2Byte(st);
-		byte[] encryptedSt=SecurityUtil.decryptAes(decryptedSt, serverPassword);
+		byte[] encryptedSt=SecurityUtil.encryptAes(decryptedSt, serverPassword);
 		sr.setSt(encryptedSt);
 		
 		
@@ -147,6 +147,7 @@ public class BaseTgsProcessor implements TgsProcessor{
 		secondResponseBody.setLifeTime(requestInformation.getLifeTime());
 		secondResponseBody.setServiceSessionKey(serviceSessionKey);
 		secondResponseBody.setTimeStamp(new Date());
+		secondResponseBody.setSeverName(requestInformation.getRequestServerName());
 		byte[] decryptedSecondResponseBody=serializer.object2Byte(secondResponseBody);
 		byte[] encryptedSecondeResponseBody=SecurityUtil.encryptAes(decryptedSecondResponseBody, tgsSessionKey);
 		sr.setResponseBody(encryptedSecondeResponseBody);

@@ -1,6 +1,7 @@
 package com.cgs.kerberos.client.handle;
 
 import com.cgs.kerberos.bean.SecondRequest;
+import com.cgs.kerberos.bean.SecondResponse;
 import com.cgs.kerberos.client.bean.FirstResponseWrapper;
 import com.cgs.kerberos.client.bean.SecondResponseWrapper;
 import com.cgs.kerberos.exception.KerberosException;
@@ -33,4 +34,7 @@ public interface StClientProcessor {
 	 * @throws KerberosException
 	 */
 	SecondRequest getSecondRequest(FirstResponseWrapper firstResponseWrapper,String serverName,String ip,long lifeTime) throws KerberosException;
+	
+	
+	SecondResponseWrapper getStResponse(SecondResponse secondResponse,byte[] tgsSessionKey) throws KerberosException;
 }

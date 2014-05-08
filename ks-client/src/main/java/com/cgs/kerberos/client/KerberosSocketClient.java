@@ -14,11 +14,13 @@ import org.slf4j.LoggerFactory;
 import com.cgs.kerberos.bean.FirstRequest;
 import com.cgs.kerberos.bean.FirstResponse;
 import com.cgs.kerberos.bean.SecondRequest;
+import com.cgs.kerberos.bean.SecondResponse;
 import com.cgs.kerberos.bean.TgtResponse;
 import com.cgs.kerberos.bean.TicketGrantingTicket;
 import com.cgs.kerberos.client.bean.FirstResponseWrapper;
 import com.cgs.kerberos.client.bean.SecondResponseWrapper;
 import com.cgs.kerberos.client.handle.StClientAesProcessor;
+import com.cgs.kerberos.client.handle.StClientProcessor;
 import com.cgs.kerberos.client.handle.TgtClientAesProcessor;
 import com.cgs.kerberos.client.handle.TgtClientProcessor;
 import com.cgs.kerberos.exception.KerberosException;
@@ -38,7 +40,7 @@ public class KerberosSocketClient implements KerberosClient {
 
 	private String remoteHost;
 	private TgtClientProcessor tgtClientProcessor;
-	private StClientAesProcessor stClientAesProcessor;
+	private StClientProcessor stClientProcessor;
 	
 	private Serializer serializer=new KryoSerializer();
 
@@ -56,7 +58,7 @@ public class KerberosSocketClient implements KerberosClient {
 		
 		StClientAesProcessor s=new StClientAesProcessor();
 		s.setSerializer(serializer);
-		this.stClientAesProcessor=s;
+		this.stClientProcessor=s;
 		
 	}
 
@@ -153,9 +155,9 @@ public class KerberosSocketClient implements KerberosClient {
 			// 写入
 			SecondRequest secondRequest;
 			if(clientName!=null){
-				secondRequest=stClientAesProcessor.getSecondRequest(firstResponseWrapper,clientName, serverName, ip, lifeTime);
+				secondRequest=stClientProcessor.getSecondRequest(firstResponseWrapper,clientName, serverName, ip, lifeTime);
 			}else{
-				secondRequest=stClientAesProcessor.getSecondRequest(firstResponseWrapper, serverName, ip, lifeTime);
+				secondRequest=stClientProcessor.getSecondRequest(firstResponseWrapper, serverName, ip, lifeTime);
 			}
 			outputStream.write(serializer.object2Byte(secondRequest));
 			outputStream.flush();
@@ -167,8 +169,9 @@ public class KerberosSocketClient implements KerberosClient {
 			if (response instanceof String) {
 					throw new TgsException("Ticket granting Server incurred an exception. The message information is"+response); 
 			}else{
-//				FirstResponseWrapper firstResponseWrapper = tgtClientProcessor.getTgtResponse((FirstResponse)response);
-//				return firstResponseWrapper;
+				SecondResponse secondResponse=(SecondResponse) response;
+				SecondResponseWrapper secondResponseWrapper=stClientProcessor.getStResponse(secondResponse, firstResponseWrapper.getTgtResponse().getTgsSessionKey());
+				return secondResponseWrapper;
 			}
 			
 
@@ -188,7 +191,15 @@ public class KerberosSocketClient implements KerberosClient {
 	}
 
 	public SecondResponseWrapper getSt(FirstResponseWrapper firstResponseWrapper, String serverName, String ip, long lifeTime) throws KerberosException {
-		return getSt(firstResponseWrapper, serverName, ip, lifeTime);
+		return getSt(firstResponseWrapper,null, serverName, ip, lifeTime);
+	}
+
+	public SecondResponseWrapper getSt(FirstResponseWrapper firstResponseWrapper, String clientName, String serverName, String ip) throws KerberosException {
+		return getSt(firstResponseWrapper, clientName, serverName, ip,DEFAULT_LIFT_TIME);
+	}
+
+	public SecondResponseWrapper getSt(FirstResponseWrapper firstResponseWrapper, String serverName, String ip) throws KerberosException {
+		return getSt(firstResponseWrapper, serverName, ip,DEFAULT_LIFT_TIME);
 	}
 
 }

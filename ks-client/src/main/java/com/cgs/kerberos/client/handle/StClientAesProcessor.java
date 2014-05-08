@@ -8,8 +8,11 @@ import org.slf4j.LoggerFactory;
 import com.cgs.kerberos.bean.SecondRequest;
 import com.cgs.kerberos.bean.SecondRequest.RequestInformation;
 import com.cgs.kerberos.bean.SecondRequest.Verification;
+import com.cgs.kerberos.bean.SecondResponse;
+import com.cgs.kerberos.bean.SecondResponse.SecondResponseBody;
 import com.cgs.kerberos.bean.TgtResponse;
 import com.cgs.kerberos.client.bean.FirstResponseWrapper;
+import com.cgs.kerberos.client.bean.SecondResponseWrapper;
 import com.cgs.kerberos.exception.KerberosException;
 import com.cgs.kerberos.util.SecurityUtil;
 import com.cgs.kerberos.util.Serializer;
@@ -19,6 +22,14 @@ public class StClientAesProcessor implements StClientProcessor{
 	
 	private ClientDatabaseProcessor databaseProcessor;
 	private Serializer serializer;
+	
+	public StClientAesProcessor(){
+		this.databaseProcessor=new FileClientDatabaseProcessor();
+	}
+	
+	public StClientAesProcessor(String path){
+		this.databaseProcessor=new FileClientDatabaseProcessor(path);
+	}
 	
 	public void setDatabaseProcessor(ClientDatabaseProcessor databaseProcessor) {
 		this.databaseProcessor = databaseProcessor;
@@ -63,6 +74,18 @@ public class StClientAesProcessor implements StClientProcessor{
 	public SecondRequest getSecondRequest(FirstResponseWrapper firstResponseWrapper, String serverName, String ip, long lifeTime) throws KerberosException {
 		String clientName=databaseProcessor.getName();
 		return getSecondRequest(firstResponseWrapper, clientName, serverName, ip, lifeTime);
+	}
+
+	public SecondResponseWrapper getStResponse(SecondResponse secondResponse, byte[] tgsSessionKey) throws KerberosException {
+		byte[] encryptedSecondResponseBody=secondResponse.getResponseBody();
+		byte[] decryptedSecondResponseBody=SecurityUtil.decryptAes(encryptedSecondResponseBody, tgsSessionKey);
+		SecondResponseBody secondResponseBody=(SecondResponseBody) serializer.byte2Object(decryptedSecondResponseBody);
+		
+		SecondResponseWrapper secondResponseWrapper=new SecondResponseWrapper();
+		secondResponseWrapper.setSecondResponseBody(secondResponseBody);
+		secondResponseWrapper.setSt(secondResponse.getSt());
+		
+		return secondResponseWrapper;
 	}
 
 }

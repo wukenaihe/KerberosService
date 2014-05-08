@@ -36,4 +36,6 @@ public interface DatabaseProcessor {
 	 */
 	String getPassword(String name) throws DatabaseException;
 	
+	String getSelfName() throws DatabaseException;
+	
 }

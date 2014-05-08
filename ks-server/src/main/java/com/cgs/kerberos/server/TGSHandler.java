@@ -34,6 +34,8 @@ public class TGSHandler extends BaseHandler implements Runnable{
 		try {
 			ois.read(bytes);
 			SecondRequest obj = (SecondRequest) serializer.byte2Object(bytes);
+			String clientIp=socket.getInetAddress().toString();
+			obj.getRequestInformation().setIp(clientIp);
 			SecondResponse responseBody = tgsProcessor.check(obj);
 
 			writeResponse(responseBody);

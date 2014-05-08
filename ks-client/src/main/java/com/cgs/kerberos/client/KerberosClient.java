@@ -45,5 +45,9 @@ public interface KerberosClient {
 	SecondResponseWrapper getSt(FirstResponseWrapper firstResponseWrapper,String clientName,String serverName,String ip,long lifeTime) throws KerberosException;
 	
 	SecondResponseWrapper getSt(FirstResponseWrapper firstResponseWrapper,String serverName,String ip,long lifeTime) throws KerberosException;
+	
+SecondResponseWrapper getSt(FirstResponseWrapper firstResponseWrapper,String clientName,String serverName,String ip) throws KerberosException;
+	
+	SecondResponseWrapper getSt(FirstResponseWrapper firstResponseWrapper,String serverName,String ip) throws KerberosException;
 
 }
