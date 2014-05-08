@@ -16,16 +16,11 @@ import com.cgs.kerberos.util.Serializer;
 public class BaseTgtProcessor implements TgtProcessor{
 	private DatabaseProcessor dbp;
 	private String name;
-	private String password;
-	private Serializer serializer=new KryoSerializer();
+	private Serializer serializer;
 	
 	//修改
 	public void setSerializer(Serializer serializer) {
 		this.serializer = serializer;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public void setName(String name) {
@@ -51,6 +46,12 @@ public class BaseTgtProcessor implements TgtProcessor{
 	
 	public BaseTgtProcessor(){
 		this.dbp=new FileDatabaseProcessor();
+		this.serializer=new KryoSerializer();
+	}
+	
+	public BaseTgtProcessor(DatabaseProcessor dbp,Serializer serializer){
+		this.dbp=dbp;
+		this.serializer=serializer;
 	}
 
 	public FirstResponse check(FirstRequest firstRequest) throws NoSuchUser {
@@ -60,15 +61,15 @@ public class BaseTgtProcessor implements TgtProcessor{
 //			throw new NoSuchUser("Can not find "+firstRequest.getName()+" in KDC database, please contact the administractor");
 //		}
 		
-		//产生一个随机的TGT Sesssion key
-		byte[] tgtSessionKey=generateTgtSessionKey();
+		//产生一个随机的TGS Sesssion key
+		byte[] tgsSessionKey=generateTgtSessionKey();
 		
 		//生成应答第一部分，通过客户端的密码进行加密
-		TgtResponse tgtResponse=generateTgtResponse(firstRequest, tgtSessionKey);
+		TgtResponse tgtResponse=generateTgtResponse(firstRequest, tgsSessionKey);
 		byte[] tgtResponseBytes=serialAndEncryptTgtResponse(tgtResponse, firstRequest.getName());
 		
 		//生成TGT，通过KDC的密码进行加密
-		TicketGrantingTicket tgt=generateTGT(firstRequest, tgtSessionKey);
+		TicketGrantingTicket tgt=generateTGT(firstRequest, tgsSessionKey);
 		byte[] tgtBytes=serialAndEncryptTGT(tgt);
 		
 		FirstResponse firstResponse=new FirstResponse();
@@ -111,7 +112,7 @@ public class BaseTgtProcessor implements TgtProcessor{
 		t.setIp(f.getIp());
 		t.setLifeTime(f.getLifeTime());
 		t.setTgsName(getName());
-		t.setTgtSessionKey(sessionKey);
+		t.setTgsSessionKey(sessionKey);
 		t.setTimeStamp(new Date());
 		return t;
 	}
@@ -144,7 +145,7 @@ public class BaseTgtProcessor implements TgtProcessor{
 		TgtResponse t=new TgtResponse();
 		t.setLifeTime(f.getLifeTime());
 		t.setTgsName(getName());
-		t.setTgtSessionKey(sessionKey);
+		t.setTgsSessionKey(sessionKey);
 		t.setTimeStamp(new Date());
 		return t;
 	}

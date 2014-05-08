@@ -29,48 +29,17 @@ import com.esotericsoftware.kryo.io.Input;
  * @author xumh
  * 
  */
-public class TGTHandler implements Runnable {
+public class TGTHandler extends BaseHandler implements Runnable {
 	private static Logger logger = LoggerFactory.getLogger(TGTHandler.class);
 
-	final Socket socket;
-
-	private OutputStream oos;
-	private InputStream ois;
-	private Serializer serializer;// 可更换序列化方式
 	private TgtProcessor tgtProcessor;
 
-	boolean closed = false;
-
-	static final int RESET_FREQUENCY = 1000;
+	
 
 	public TGTHandler(Socket socket) {
-		this.socket = socket;
-
-		serializer = new KryoSerializer();
+		super(socket);
 		tgtProcessor=new BaseTgtProcessor();
 
-		try {
-			ois = socket.getInputStream();
-			oos = socket.getOutputStream();
-		} catch (Exception e) {
-			logger.error("Could not open ObjectInputStream to " + socket, e);
-		}
-
-	}
-
-	void close() {
-		if (closed) {
-			return;
-		}
-		closed = true;
-		if (ois != null) {
-			try {
-				ois.close();
-				ois = null;
-			} catch (IOException e) {
-				logger.warn("While in close method caught: " + e.getMessage());
-			}
-		}
 	}
 
 	public void run() {
@@ -94,16 +63,6 @@ public class TGTHandler implements Runnable {
 			} catch (IOException e) {
 				logger.error(e.getMessage(),e);
 			}
-		}
-	}
-
-	private void writeResponse(Object outgoingObject) {
-		try {
-			byte[] bytes = serializer.object2Byte(outgoingObject);
-			oos.write(bytes);
-			oos.flush();
-		} catch (IOException e) {
-			logger.error("Failed to send acknowledgement", e);
 		}
 	}
 

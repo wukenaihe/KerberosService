@@ -17,7 +17,7 @@ public class TgtResponse implements Serializable{
 	private String TgsName;
 	private Date timeStamp;
 	private long lifeTime;
-	private byte[] tgtSessionKey;
+	private byte[] tgsSessionKey;
 	
 	public String getTgsName() {
 		return TgsName;
@@ -37,15 +37,16 @@ public class TgtResponse implements Serializable{
 	public void setLifeTime(long lifeTime) {
 		this.lifeTime = lifeTime;
 	}
-	public byte[] getTgtSessionKey() {
-		return tgtSessionKey;
+	public byte[] getTgsSessionKey() {
+		return tgsSessionKey;
 	}
-	public void setTgtSessionKey(byte[] tgtSessionKey) {
-		this.tgtSessionKey = tgtSessionKey;
+	public void setTgsSessionKey(byte[] tgsSessionKey) {
+		this.tgsSessionKey = tgsSessionKey;
 	}
-	
+	@Override
 	public String toString() {
-		return "TgtResponse [TgsName=" + TgsName + ", timeStamp=" + timeStamp + ", lifeTime=" + lifeTime + ", tgtSessionKey=" + Arrays.toString(tgtSessionKey)
+		return "TgtResponse [TgsName=" + TgsName + ", timeStamp=" + timeStamp + ", lifeTime=" + lifeTime + ", tgsSessionKey=" + Arrays.toString(tgsSessionKey)
 				+ "]";
 	}
+
 }

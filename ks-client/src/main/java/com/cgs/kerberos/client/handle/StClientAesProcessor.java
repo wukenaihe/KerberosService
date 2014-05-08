@@ -40,7 +40,7 @@ public class StClientAesProcessor implements StClientProcessor{
 		v.setName(clientName);
 		v.setTimeStamp(new Date());
 		
-		byte[] sessionKey=tgtResponse.getTgtSessionKey();
+		byte[] sessionKey=tgtResponse.getTgsSessionKey();
 		//序列化
 		byte[] verificationByte=serializer.object2Byte(v);
 		//用TGT Session Key加密
