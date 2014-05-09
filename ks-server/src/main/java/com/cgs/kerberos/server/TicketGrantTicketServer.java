@@ -9,6 +9,7 @@ import java.net.SocketException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.cgs.kerberos.builder.BaseTGTHandlerBuilder;
 import com.cgs.kerberos.builder.TGTHandlerBuilder;
 import com.cgs.kerberos.handle.BaseTgtProcessor;
 import com.cgs.kerberos.handle.TgtProcessor;
@@ -16,7 +17,7 @@ import com.cgs.kerberos.handle.TgtProcessor;
 public class TicketGrantTicketServer extends BaseServer{
 	private static Logger logger = LoggerFactory.getLogger(TicketGrantTicketServer.class);
 	
-	private TGTHandlerBuilder tgtHandlerBuilder;
+	private TGTHandlerBuilder tgtHandlerBuilder=new BaseTGTHandlerBuilder();
 
 	public void setTgtHandlerBuilder(TGTHandlerBuilder tgtHandlerBuilder) {
 		this.tgtHandlerBuilder = tgtHandlerBuilder;

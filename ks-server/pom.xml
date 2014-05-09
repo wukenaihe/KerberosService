@@ -8,8 +8,8 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>Ks</groupId>
-	<artifactId>Ks-server</artifactId>
+	<groupId>com.cgs.ks</groupId>
+	<artifactId>ks-server</artifactId>
 
 	<dependencies>
 		<dependency>

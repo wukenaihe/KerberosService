@@ -34,7 +34,7 @@ public class TGTHandler extends BaseHandler implements Runnable {
 
 	private TgtProcessor tgtProcessor;
 
-	public synchronized void setTgtProcessor(TgtProcessor tgtProcessor) {
+	public void setTgtProcessor(TgtProcessor tgtProcessor) {
 		this.tgtProcessor = tgtProcessor;
 	}
 

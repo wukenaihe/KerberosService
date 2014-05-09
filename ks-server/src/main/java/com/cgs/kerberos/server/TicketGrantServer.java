@@ -9,9 +9,18 @@ import java.net.SocketException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.cgs.kerberos.builder.BaseTGSHandlerBuilder;
+import com.cgs.kerberos.builder.TGSHandlerBuilder;
+
 public class TicketGrantServer extends BaseServer {
 
 	private static Logger logger = LoggerFactory.getLogger(TicketGrantServer.class);
+	
+	private TGSHandlerBuilder tgsHandlerBuilder=new BaseTGSHandlerBuilder();
+	
+	public void setTgsHandlerBuilder(TGSHandlerBuilder tgsHandlerBuilder) {
+		this.tgsHandlerBuilder = tgsHandlerBuilder;
+	}
 
 	public TicketGrantServer(int port) {
 		super(port);
@@ -34,7 +43,7 @@ public class TicketGrantServer extends BaseServer {
 			}
 		} catch (SocketException e) {
 			if ("socket closed".equals(e.getMessage())) {
-				logger.info("Audit server has been closed");
+				logger.info("TGSHandler server has been closed");
 			} else {
 				logger.info("Caught an SocketException", e);
 			}

@@ -19,9 +19,12 @@ public class TGSHandler extends BaseHandler implements Runnable{
 	private static Logger logger = LoggerFactory.getLogger(TGTHandler.class);
 	
 	private TgsProcessor tgsProcessor;
-
-	boolean closed = false;
 	
+	public void setTgsProcessor(TgsProcessor tgsProcessor) {
+		this.tgsProcessor = tgsProcessor;
+	}
+
+
 	public TGSHandler(Socket socket){
 		super(socket);
 		tgsProcessor=new BaseTgsProcessor();

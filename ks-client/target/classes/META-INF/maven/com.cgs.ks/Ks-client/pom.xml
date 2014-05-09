@@ -9,7 +9,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cgs.ks</groupId>
-	<artifactId>Ks-client</artifactId>
+	<artifactId>ks-client</artifactId>
 
 	<dependencies>
 		<dependency>
