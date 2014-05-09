@@ -112,11 +112,12 @@ public class BaseTgsProcessor implements TgsProcessor{
 		}
 		
 		//检查客户端请求tgt时的IP，与这次请求的Ip是否一致
+		//UNDO 暂时取消，极容易出错，可能回事浮动IP等
 		String tgtIp=tgt.getIp();
-		String clientIp=requestInformation.getIp();
-		if(!tgtIp.equals(clientIp)){
-			throw new InvalidTgsRequest("Invalid Tgt. The Tgt's Ip is "+tgtIp+" and your ip is "+clientIp);
-		}
+//		String clientIp=requestInformation.getIp();
+//		if(!tgtIp.equals(clientIp)){
+//			throw new InvalidTgsRequest("Invalid Tgt. The Tgt's Ip is "+tgtIp+" and your ip is "+clientIp);
+//		}
 		
 		//TODO TGS缓存检查
 		

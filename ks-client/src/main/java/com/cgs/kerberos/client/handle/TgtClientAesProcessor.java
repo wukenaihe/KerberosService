@@ -4,16 +4,12 @@ import java.util.Date;
 
 import com.cgs.kerberos.bean.FirstRequest;
 import com.cgs.kerberos.bean.FirstResponse;
-import com.cgs.kerberos.bean.SecondRequest;
 import com.cgs.kerberos.bean.TgtResponse;
 import com.cgs.kerberos.client.bean.FirstResponseWrapper;
-import com.cgs.kerberos.client.bean.SecondResponseWrapper;
 import com.cgs.kerberos.exception.AesSecurityException;
 import com.cgs.kerberos.exception.PasswordError;
-import com.cgs.kerberos.util.KryoSerializer;
 import com.cgs.kerberos.util.SecurityUtil;
 import com.cgs.kerberos.util.Serializer;
-import com.cgs.util.KryoUtilTest;
 
 public class TgtClientAesProcessor implements TgtClientProcessor{
 	

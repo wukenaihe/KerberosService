@@ -25,6 +25,7 @@ public class TGSHandler extends BaseHandler implements Runnable{
 	public TGSHandler(Socket socket){
 		super(socket);
 		tgsProcessor=new BaseTgsProcessor();
+		
 	}
 	
 	
