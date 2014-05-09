@@ -1,11 +1,15 @@
 package com.cgs.server;
 
+import com.cgs.kerberos.builder.BaseTGTHandlerBuilder;
 import com.cgs.kerberos.server.TicketGrantServer;
 import com.cgs.kerberos.server.TicketGrantTicketServer;
 
 public class TicketGrantServerTest {
 	public static void main(String[] args) throws InterruptedException {
+		BaseTGTHandlerBuilder baseTGTHandlerBuilder=new BaseTGTHandlerBuilder();
+		
 		TicketGrantTicketServer a = new TicketGrantTicketServer(8906);
+		a.setTgtHandlerBuilder(baseTGTHandlerBuilder);
 		new Thread(a).start();
 		
 		TicketGrantServer s=new TicketGrantServer(8907);

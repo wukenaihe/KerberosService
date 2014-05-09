@@ -9,11 +9,18 @@ import java.net.SocketException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.cgs.kerberos.builder.TGTHandlerBuilder;
 import com.cgs.kerberos.handle.BaseTgtProcessor;
 import com.cgs.kerberos.handle.TgtProcessor;
 
 public class TicketGrantTicketServer extends BaseServer{
 	private static Logger logger = LoggerFactory.getLogger(TicketGrantTicketServer.class);
+	
+	private TGTHandlerBuilder tgtHandlerBuilder;
+
+	public void setTgtHandlerBuilder(TGTHandlerBuilder tgtHandlerBuilder) {
+		this.tgtHandlerBuilder = tgtHandlerBuilder;
+	}
 
 	public TicketGrantTicketServer(int port) {
 		super(port);
@@ -35,7 +42,7 @@ public class TicketGrantTicketServer extends BaseServer{
 				// (e.g. removal whole iterating on the list causes
 				// java.util.ConcurrentModificationException
 				
-				new Thread(new TGTHandler(socket)).start();
+				new Thread(tgtHandlerBuilder.getTGTHandler(socket)).start();
 			}
 		} catch (SocketException e) {
 			if ("socket closed".equals(e.getMessage())) {
