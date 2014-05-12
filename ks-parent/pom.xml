@@ -3,15 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cgs.ks</groupId>
 	<artifactId>ks-parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1-FINAL</version>
 	<packaging>pom</packaging>
 
-<!-- 	<modules> -->
-<!-- 		<module>ks-common</module> -->
-<!-- 		<module>ks-server</module> -->
-<!-- 		<module>ks-client</module> -->
-<!-- 		<module>ks-examples</module> -->
-<!-- 	</modules> -->
+	<distributionManagement>
+		<repository>
+			<id>cgs-private-release</id>
+			<name>succsoft  RELEASE</name>
+			<url>http://172.18.1.2:8081/nexus/content/repositories/cgs-private-release</url>
+		</repository>
+	</distributionManagement>
 
 	<developers>
 		<developer>

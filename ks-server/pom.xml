@@ -4,11 +4,10 @@
 	<parent>
 		<groupId>com.cgs.ks</groupId>
 		<artifactId>ks-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.1-FINAL</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.cgs.ks</groupId>
 	<artifactId>ks-server</artifactId>
 
 	<dependencies>
