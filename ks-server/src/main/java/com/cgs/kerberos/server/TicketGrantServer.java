@@ -25,6 +25,10 @@ public class TicketGrantServer extends BaseServer {
 	public TicketGrantServer(int port) {
 		super(port);
 	}
+	
+	public TicketGrantServer(){
+		super(KdcConstants.TGS_SERVER_PORT);
+	}
 
 	public void run() {
 		try {
@@ -39,7 +43,7 @@ public class TicketGrantServer extends BaseServer {
 
 				logger.info("Starting new socket node.");
 				
-				new Thread(new TGSHandler(socket)).start();
+				new Thread(tgsHandlerBuilder.getTGSHandler(socket)).start();
 			}
 		} catch (SocketException e) {
 			if ("socket closed".equals(e.getMessage())) {

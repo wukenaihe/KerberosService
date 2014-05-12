@@ -26,6 +26,10 @@ public class TicketGrantTicketServer extends BaseServer{
 	public TicketGrantTicketServer(int port) {
 		super(port);
 	}
+	
+	public TicketGrantTicketServer() {
+		super(KdcConstants.TGT_SERVER_PORT);
+	}
 
 	public void run() {
 		try {

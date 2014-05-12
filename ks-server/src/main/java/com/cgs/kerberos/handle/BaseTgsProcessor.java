@@ -17,6 +17,7 @@ import com.cgs.kerberos.bean.ServiceTicket;
 import com.cgs.kerberos.bean.TicketGrantingTicket;
 import com.cgs.kerberos.exception.InvalidTgsRequest;
 import com.cgs.kerberos.exception.KerberosException;
+import com.cgs.kerberos.exception.NoSuchUser;
 import com.cgs.kerberos.util.KryoSerializer;
 import com.cgs.kerberos.util.SecurityUtil;
 import com.cgs.kerberos.util.Serializer;
@@ -75,6 +76,9 @@ public class BaseTgsProcessor implements TgsProcessor{
 		//检查服务名是否在KDC数据库中存在
 		String server=requestInformation.getRequestServerName();
 		boolean containServer=dbp.contain(server);
+		if(!containServer){
+			throw new NoSuchUser("Can not find "+server+" in KDC's database");
+		}
 		
 		//解密TGT
 		byte[] encryptedTgt=secondRequest.getTgt();

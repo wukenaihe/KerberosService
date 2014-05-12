@@ -13,9 +13,9 @@ public class TicketGrantServerTest {
 		a.setTgtHandlerBuilder(baseTGTHandlerBuilder);
 		new Thread(a).start();
 		
-//		BaseTGSHandlerBuilder baseTGSHandlerBuilder=new BaseTGSHandlerBuilder();
+		BaseTGSHandlerBuilder baseTGSHandlerBuilder=new BaseTGSHandlerBuilder();
 		TicketGrantServer s=new TicketGrantServer(8907);
-		
+		s.setTgsHandlerBuilder(baseTGSHandlerBuilder);
 		new Thread(s).start();
 		
 //		Thread.sleep(10000);

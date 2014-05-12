@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 public abstract class BaseServer implements Runnable{
 	private static Logger logger = LoggerFactory.getLogger(BaseServer.class);
 	
-	final int port;
+	protected final int port;
 	protected boolean closed = false;
 	protected boolean serverSocketSucessfullyOpened = false;
 	protected ServerSocket serverSocket;
