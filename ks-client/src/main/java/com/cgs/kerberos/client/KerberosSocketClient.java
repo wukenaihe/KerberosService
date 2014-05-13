@@ -15,6 +15,7 @@ import com.cgs.kerberos.bean.SecondRequest;
 import com.cgs.kerberos.bean.SecondResponse;
 import com.cgs.kerberos.client.bean.FirstResponseWrapper;
 import com.cgs.kerberos.client.bean.SecondResponseWrapper;
+import com.cgs.kerberos.client.handle.ClientDatabaseProcessor;
 import com.cgs.kerberos.client.handle.StClientAesProcessor;
 import com.cgs.kerberos.client.handle.StClientProcessor;
 import com.cgs.kerberos.client.handle.TgtClientAesProcessor;
@@ -34,6 +35,7 @@ public class KerberosSocketClient implements KerberosClient {
 	private String remoteHost;
 	private TgtClientProcessor tgtClientProcessor;
 	private StClientProcessor stClientProcessor;
+	private ClientDatabaseProcessor cdp;
 	
 	private Serializer serializer=new KryoSerializer();
 
@@ -61,6 +63,15 @@ public class KerberosSocketClient implements KerberosClient {
 	
 	public KerberosSocketClient(){
 		this(null,DEFAULT_TGS_PORT,DEFAULT_ST_PORT);
+	}
+	
+	
+	
+
+	public void setCdp(ClientDatabaseProcessor cdp) {
+		this.cdp = cdp;
+		tgtClientProcessor.setDatabaseProcessor(cdp);
+		stClientProcessor.setDatabaseProcessor(cdp);
 	}
 
 	public void setRemoteHost(String remoteHost) {

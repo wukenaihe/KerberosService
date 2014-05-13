@@ -21,6 +21,14 @@ public class FileClientDatabaseProcessor implements ClientDatabaseProcessor {
 	private String path = DEFAULT_CLIENT_DATABASE_PATH;
 	private static final String KEY = "5tgbNHY^";
 
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
 	public FileClientDatabaseProcessor() {
 
 	}
