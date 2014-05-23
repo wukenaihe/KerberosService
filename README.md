@@ -10,3 +10,20 @@ Example Usage
   <li>创建服务端账户密码，通过ks-tool中的FileDatabaseProcessor创建（main函数中已注释掉部分）。或者根据命令行来进行创建。创建结果为ks-example中的ks-database.dat</li>
   <li>创建客户端账户密码，通过ks-tool中的FileClientDatabaseProcessor创建。创建结果为ks-example中的ks-client-database.dat</li>
 </ol>
+
+
+<h3>启动服务端</h3>
+  main函数方式启动
+```java
+    BaseTGTHandlerBuilder baseTGTHandlerBuilder = new BaseTGTHandlerBuilder();
+
+		a = new TicketGrantTicketServer(8906);
+		a.setTgtHandlerBuilder(baseTGTHandlerBuilder);
+		new Thread(a).start();
+
+		// BaseTGSHandlerBuilder baseTGSHandlerBuilder=new
+		// BaseTGSHandlerBuilder();
+		s = new TicketGrantServer(8907);
+
+		new Thread(s).start();
+```
