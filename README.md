@@ -27,3 +27,21 @@ Example Usage
 
 		new Thread(s).start();
 ```
+  servlet listener方式启动,通过配置web.xml实现
+```xml
+   	<context-param>
+		<param-name>tgtServerPort</param-name>
+		<param-value>8906</param-value>
+	</context-param>
+	<context-param>
+		<param-name>tgsServerPort</param-name>
+		<param-value>8907</param-value>
+	</context-param>
+	<context-param>
+		<param-name>fileDatabase</param-name>
+		<param-value>E:/ks-database.dat</param-value>
+	</context-param>
+	<listener>
+		<listener-class>com.cgs.kerberos.server.KerberosServletContextListener</listener-class>
+	</listener>
+```
