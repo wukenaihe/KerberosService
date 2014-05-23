@@ -6,6 +6,7 @@ KerberosService
 Example Usage
 =============
 <h3>创建账号密码</h3>
-1、创建服务端账户密码，通过ks-tool中的FileDatabaseProcessor创建（main函数中已注释掉部分）。或者根据命令行来进行创建。
-2、创建客户端账户密码，通过ks-tool中的FileClientDatabaseProcessor创建。
-
+<ol>
+  <li>创建服务端账户密码，通过ks-tool中的FileDatabaseProcessor创建（main函数中已注释掉部分）。或者根据命令行来进行创建。</li>
+  <li>创建客户端账户密码，通过ks-tool中的FileClientDatabaseProcessor创建。</li>
+</ol>
