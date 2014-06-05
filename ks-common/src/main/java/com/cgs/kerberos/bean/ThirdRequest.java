@@ -5,8 +5,15 @@ import java.util.Arrays;
 import java.util.Date;
 
 public class ThirdRequest implements Serializable{
-	
+
+	private static final long serialVersionUID = 1394705034798881764L;
+
 	public static class ThirdRequestInformation implements Serializable{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2029569869924917990L;
+		
 		private String clientName;
 		private Date timeStamp;
 		

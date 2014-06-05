@@ -14,16 +14,16 @@ public class TgtResponse implements Serializable{
 
 	private static final long serialVersionUID = 108651713906189188L;
 	
-	private String TgsName;
+	private String tgsName;
 	private Date timeStamp;
 	private long lifeTime;
 	private byte[] tgsSessionKey;
 	
 	public String getTgsName() {
-		return TgsName;
+		return tgsName;
 	}
 	public void setTgsName(String tgsName) {
-		TgsName = tgsName;
+		this.tgsName = tgsName;
 	}
 	public Date getTimeStamp() {
 		return timeStamp;
@@ -45,7 +45,7 @@ public class TgtResponse implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "TgtResponse [TgsName=" + TgsName + ", timeStamp=" + timeStamp + ", lifeTime=" + lifeTime + ", tgsSessionKey=" + Arrays.toString(tgsSessionKey)
+		return "TgtResponse [TgsName=" + tgsName + ", timeStamp=" + timeStamp + ", lifeTime=" + lifeTime + ", tgsSessionKey=" + Arrays.toString(tgsSessionKey)
 				+ "]";
 	}
 

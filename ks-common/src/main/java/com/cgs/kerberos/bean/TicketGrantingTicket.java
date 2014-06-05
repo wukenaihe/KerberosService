@@ -14,12 +14,12 @@ public class TicketGrantingTicket implements Serializable{
 
 	private static final long serialVersionUID = -4669864940958256658L;
 	
-	private String clientName;
-	private String tgsName;
-	private Date timeStamp;
-	private String ip;
-	private long lifeTime;
-	private byte[] tgsSessionKey;
+	private String clientName;//客户端名称
+	private String tgsName;//KDC名称
+	private Date timeStamp;//时间戳
+	private String ip;//ip地址
+	private long lifeTime;//生存时间
+	private byte[] tgsSessionKey;//随机生成的tgsSessionKey
 	
 	
 	public String getClientName() {

@@ -27,7 +27,7 @@ public class SecondResponse implements Serializable{
 
 
 	public static class SecondResponseBody implements Serializable{
-		private String severName;
+		private String severName;//要求请求的服务器名称（区别于KDC服务）
 		private Date timeStamp;
 		private long lifeTime;
 		private byte[] serviceSessionKey;
