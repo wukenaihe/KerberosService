@@ -68,10 +68,7 @@ public class KerberosClientServerImpl implements KerberosClientServer {
 
 		// 解密ST
 		logger.debug("Decrypt thirdRequest's Service Ticket");
-		byte[] encryptedSt = thirdRequest.getSt();
-		String passWord = cdp.getPassord();
-		byte[] decryptedSt = SecurityUtil.decryptAes(encryptedSt, passWord);
-		ServiceTicket st = (ServiceTicket) serializer.byte2Object(decryptedSt);
+		ServiceTicket st = decodeSt(thirdRequestByte);
 
 		// 解密请求信息
 		logger.debug("Decrypt thirdRequestInformation");
@@ -127,5 +124,18 @@ public class KerberosClientServerImpl implements KerberosClientServer {
 			return false;
 		}
 		return true;
+	}
+
+	
+	public ServiceTicket decodeSt(byte[] thirdRequestByte) throws KerberosException {
+		ThirdRequest thirdRequest = (ThirdRequest) serializer.byte2Object(thirdRequestByte);
+
+		// 解密ST
+		logger.debug("Decrypt thirdRequest's Service Ticket");
+		byte[] encryptedSt = thirdRequest.getSt();
+		String passWord = cdp.getPassord();
+		byte[] decryptedSt = SecurityUtil.decryptAes(encryptedSt, passWord);
+		ServiceTicket st = (ServiceTicket) serializer.byte2Object(decryptedSt);
+		return st;
 	}
 }

@@ -26,7 +26,6 @@ public class KryoSerializer implements Serializer{
 		kryo = new Kryo();
 		kryo.setReferences(false);
 		kryo.setRegistrationRequired(false);
-//		kryo.register(FirstRequest.class,1);
 	}
 	
 	public KryoSerializer(Kryo kryo){

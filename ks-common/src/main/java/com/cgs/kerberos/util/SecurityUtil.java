@@ -208,7 +208,7 @@ public class SecurityUtil {
 	}
 
 	/*
-	 * 根据字符串生成密钥字节数组 ,Des规定为8位
+	 * 根据字符串生成密钥字节数组 ,Des规定为64位
 	 * 
 	 * @param keyStr 密钥字符串
 	 * 

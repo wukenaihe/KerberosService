@@ -1,5 +1,6 @@
 package com.cgs.kerberos.client;
 
+import com.cgs.kerberos.bean.ServiceTicket;
 import com.cgs.kerberos.bean.ThirdRequest;
 import com.cgs.kerberos.client.bean.SecondResponseWrapper;
 import com.cgs.kerberos.exception.KerberosException;
@@ -48,4 +49,6 @@ public interface KerberosClientServer {
 	 * @throws KerberosException
 	 */
 	boolean checkServiceResponse(byte[] thirdResponse,SecondResponseWrapper secondResponseWrapper) throws KerberosException;
+	
+	ServiceTicket decodeSt(byte[] thirdRequestByte) throws KerberosException;
 }

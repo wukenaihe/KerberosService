@@ -31,6 +31,7 @@ public class KerberosServletContextListener implements ServletContextListener {
 
 		ServletContext servletContext = sce.getServletContext();
 		String path=servletContext.getInitParameter(KdcConstants.FILE_DATABASE_PATH);
+		String databaseConfig=servletContext.getInitParameter(KdcConstants.DATABASE_CONFIG);
 		DatabaseProcessorBuilder dpb;
 		if(path==null){
 			dpb=new FileDatabaseProcessorBuilder();

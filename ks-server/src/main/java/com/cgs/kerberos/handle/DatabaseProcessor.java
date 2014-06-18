@@ -38,4 +38,6 @@ public interface DatabaseProcessor {
 	
 	String getSelfName() throws DatabaseException;
 	
+	void close() throws DatabaseException;
+	
 }

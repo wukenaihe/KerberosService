@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.cgs.kerberos.bean.ServiceTicket;
 import com.cgs.kerberos.client.bean.FirstResponseWrapper;
 import com.cgs.kerberos.client.bean.SecondResponseWrapper;
 import com.cgs.kerberos.exception.KerberosException;
@@ -113,6 +114,10 @@ public class KerberosFacadeMemory implements KerberosFacade {
 			throw e;
 		}
 		return tgt;
+	}
+
+	public ServiceTicket decodeSt(byte[] thirdRequestByte) throws KerberosException {
+		return kerberosClientServer.decodeSt(thirdRequestByte);
 	}
 
 }

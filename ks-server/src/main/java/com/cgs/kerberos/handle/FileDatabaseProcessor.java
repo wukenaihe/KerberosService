@@ -129,4 +129,9 @@ public class FileDatabaseProcessor implements DatabaseProcessor {
 		return null;
 	}
 
+	public void close() throws DatabaseException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

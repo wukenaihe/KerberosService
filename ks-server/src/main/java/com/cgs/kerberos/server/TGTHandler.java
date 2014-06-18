@@ -1,11 +1,6 @@
 package com.cgs.kerberos.server;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 
 import org.slf4j.Logger;
@@ -13,15 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import com.cgs.kerberos.bean.FirstRequest;
 import com.cgs.kerberos.bean.FirstResponse;
-import com.cgs.kerberos.exception.DatabaseException;
 import com.cgs.kerberos.exception.KerberosException;
-import com.cgs.kerberos.exception.TgsException;
-import com.cgs.kerberos.handle.BaseTgtProcessor;
 import com.cgs.kerberos.handle.TgtProcessor;
-import com.cgs.kerberos.util.KryoSerializer;
-import com.cgs.kerberos.util.Serializer;
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
 
 /**
  * TGS 请求处理器

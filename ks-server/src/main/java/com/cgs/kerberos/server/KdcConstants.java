@@ -6,4 +6,5 @@ public class KdcConstants {
 	public static final String FILE_DATABASE_PATH="fileDatabase";
 	public static final int TGT_SERVER_PORT=8906;
 	public static final int TGS_SERVER_PORT=8907;
+	public static final String DATABASE_CONFIG="databaseConfig";
 }

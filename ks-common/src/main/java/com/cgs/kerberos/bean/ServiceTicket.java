@@ -11,6 +11,7 @@ import java.util.Date;
  *
  */
 public class ServiceTicket implements Serializable{
+	private static final long serialVersionUID = 9221668757257821377L;
 	private String clientName;
 	private String clientIp;
 	private String serverName;
