@@ -1,5 +1,6 @@
 package com.cgs.kerberos.handle;
 
+import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cgs.kerberos.exception.DatabaseException;
 import com.cgs.kerberos.util.SecurityUtil;
 
-public class DbDatabaseProcessor implements DatabaseProcessor{
+public class DbDatabaseProcessor implements DatabaseProcessor,DatabaseWriter{
 	
 	private static Logger logger=LoggerFactory.getLogger(DbDatabaseProcessor.class);
 
@@ -25,8 +26,13 @@ public class DbDatabaseProcessor implements DatabaseProcessor{
 	
 	public static final String HAS_NAME="select count(*) from kerberos_client_database k where k.name=:name";
 	public static final String GET_SERVER_PASSWORD="select encryptPassword from kerberos_server_database k";
-	public static final String GET_CLIENT_PASSWORD="select encryptPassword from kerberos_client_database k from k.name=:name";
+	public static final String GET_CLIENT_PASSWORD="select encryptPassword from kerberos_client_database k where k.name=:name";
 	public static final String GET_SERVER_NAME="select name from kerberos_server_database k";
+	
+	public static final String INSERT_CLIENT="insert into kerberos_client_database values(:name,:password)";
+	public static final String UPDATE_CLIENT="update kerberos_client_database set encryptPassword = :password where name=:name";
+	public static final String REMOVE_CLIENT="delete from kerberos_client_database where name=:name";
+	public static final String UPDATE_SERVER="update kerberos_server_database set encryptPassword = :password,name=:name where keyName='Name'";
 	
 	
 	public DbDatabaseProcessor(BasicDataSource dataSource){
@@ -49,7 +55,7 @@ public class DbDatabaseProcessor implements DatabaseProcessor{
 	public String getSelfPassword() throws DatabaseException {
 		List<Map<String, Object>> result=jdbcTemplate.queryForList(GET_SERVER_PASSWORD, new HashMap());
 		Map<String, Object> map=result.get(0);
-		byte[] bytes=(byte[]) map.get("encodePassword");
+		byte[] bytes=(byte[]) map.get("encryptPassword");
 		byte[] decryptBytes=SecurityUtil.decryptAes(bytes, key);
 		String s=new String(decryptBytes);
 		return s;
@@ -61,7 +67,7 @@ public class DbDatabaseProcessor implements DatabaseProcessor{
 		param.put("name", name);
 		List<Map<String, Object>> result=jdbcTemplate.queryForList(GET_CLIENT_PASSWORD, param);
 		Map<String, Object> map=result.get(0);
-		byte[] bytes=(byte[]) map.get("encodePassword");
+		byte[] bytes=(byte[]) map.get("encryptPassword");
 		byte[] decryptBytes=SecurityUtil.decryptAes(bytes, key);
 		String s=new String(decryptBytes);
 		return s;
@@ -80,6 +86,57 @@ public class DbDatabaseProcessor implements DatabaseProcessor{
 		} catch (SQLException e) {
 			logger.error(e.getMessage(),e);
 		}
+	}
+
+	@Transactional(readOnly=false)
+	public boolean addClient(String name, String password) {
+		if(contain(name)){
+			return false;
+		}
+		byte[] bytes=SecurityUtil.encryptAes(password.getBytes(), key);
+		Map<String,Object> param = new HashMap<String, Object>();
+		param.put("name", name);
+		param.put("password", bytes);
+		
+		jdbcTemplate.update(INSERT_CLIENT, param);
+		
+		return true;
+	}
+
+	@Transactional(readOnly=false)
+	public boolean updateClient(String name, String password) {
+		byte[] bytes=SecurityUtil.encryptAes(password.getBytes(), key);
+		Map<String,Object> param = new HashMap<String, Object>();
+		param.put("name", name);
+		param.put("password", bytes);
+		jdbcTemplate.update(UPDATE_CLIENT, param);
+		return true;
+	}
+
+	@Transactional(readOnly=false)
+	public boolean removeClient(String name) {
+		Map<String,Object> param = new HashMap<String, Object>();
+		param.put("name", name);
+		
+		jdbcTemplate.update(REMOVE_CLIENT, param);
+		
+		return true;
+	}
+
+	@Transactional(readOnly=false)
+	public boolean addServer(String name, String password) {
+		byte[] bytes=SecurityUtil.encryptAes(password.getBytes(), key);
+		Map<String,Object> param = new HashMap<String, Object>();
+		param.put("name", name);
+		param.put("password", bytes);
+		
+		jdbcTemplate.update(UPDATE_SERVER, param);
+		return true;
+	}
+
+	@Transactional(readOnly=false)
+	public boolean updateServer(String name, String password) {
+		return addServer(name, password);
 	}
 
 }
