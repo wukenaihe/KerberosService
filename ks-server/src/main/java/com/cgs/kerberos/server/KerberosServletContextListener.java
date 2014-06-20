@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.cgs.kerberos.builder.BaseTGSHandlerBuilder;
 import com.cgs.kerberos.builder.BaseTGTHandlerBuilder;
 import com.cgs.kerberos.builder.DatabaseProcessorBuilder;
+import com.cgs.kerberos.builder.DbDatabaseProcessorBuilder;
 import com.cgs.kerberos.builder.FileDatabaseProcessorBuilder;
 
 public class KerberosServletContextListener implements ServletContextListener {
@@ -33,10 +34,12 @@ public class KerberosServletContextListener implements ServletContextListener {
 		String path=servletContext.getInitParameter(KdcConstants.FILE_DATABASE_PATH);
 		String databaseConfig=servletContext.getInitParameter(KdcConstants.DATABASE_CONFIG);
 		DatabaseProcessorBuilder dpb;
-		if(path==null){
-			dpb=new FileDatabaseProcessorBuilder();
-		}else{
+		if(path!=null){
 			dpb=new FileDatabaseProcessorBuilder(path);
+		}else if(databaseConfig!=null){
+			dpb=new DbDatabaseProcessorBuilder(databaseConfig);
+		}else{
+			dpb=new FileDatabaseProcessorBuilder();
 		}
 		
 		

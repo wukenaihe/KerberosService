@@ -19,17 +19,17 @@ public class DbDatabaseProcessor implements DatabaseProcessor,DatabaseWriter{
 	
 	private static Logger logger=LoggerFactory.getLogger(DbDatabaseProcessor.class);
 
-	private NamedParameterJdbcTemplate jdbcTemplate;
-	private BasicDataSource dataSource;
+	protected NamedParameterJdbcTemplate jdbcTemplate;
+	protected BasicDataSource dataSource;
 	
-	private static final String key="zhejiangchenggong";
+	protected static final String key="zhejiangchenggong";
 	
 	public static final String HAS_NAME="select count(*) from kerberos_client_database k where k.name=:name";
 	public static final String GET_SERVER_PASSWORD="select encryptPassword from kerberos_server_database k";
 	public static final String GET_CLIENT_PASSWORD="select encryptPassword from kerberos_client_database k where k.name=:name";
 	public static final String GET_SERVER_NAME="select name from kerberos_server_database k";
 	
-	public static final String INSERT_CLIENT="insert into kerberos_client_database values(:name,:password)";
+	public static final String INSERT_CLIENT="insert into kerberos_client_database(name,encryptPassword) values(:name,:password)";
 	public static final String UPDATE_CLIENT="update kerberos_client_database set encryptPassword = :password where name=:name";
 	public static final String REMOVE_CLIENT="delete from kerberos_client_database where name=:name";
 	public static final String UPDATE_SERVER="update kerberos_server_database set encryptPassword = :password,name=:name where keyName='Name'";
@@ -38,6 +38,14 @@ public class DbDatabaseProcessor implements DatabaseProcessor,DatabaseWriter{
 	public DbDatabaseProcessor(BasicDataSource dataSource){
 		this.dataSource=dataSource;
 		jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+	}
+	
+	public DbDatabaseProcessor(){
+		
+	}
+
+	public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 
 	@Transactional(readOnly=true)

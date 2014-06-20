@@ -24,7 +24,7 @@ public class DbDatabaseProcessorTest {
 	 
 	 
 	 @Test
-	 @Ignore
+//	 @Ignore
 	 public void getSelfName(){
 		 String name=dbDatabaseProcessor.getSelfName();
 		 System.out.println(name);
@@ -42,7 +42,8 @@ public class DbDatabaseProcessorTest {
 	 @Test
 	 @Ignore
 	 public void addClient(){
-		 boolean r=databaseWriter.addClient("thisFep", "123456");
+		 boolean r=databaseWriter.addClient("firstFep", "123456");
+		 r=databaseWriter.addClient("secondFep", "123456");
 		 Assert.isTrue(r);
 	 }
 	 
@@ -68,11 +69,11 @@ public class DbDatabaseProcessorTest {
 	 @Test
 	 @Ignore
 	 public void addServer(){
-		 databaseWriter.addServer("sourceFep", "123456");
+		 databaseWriter.addServer("firstName", "123456");
 	 }
 	 
 	 @Test
-//	 @Ignore
+	 @Ignore
 	 public void showSelfPassword(){
 		 String p=dbDatabaseProcessor.getSelfPassword();
 		 String n=dbDatabaseProcessor.getSelfName();
