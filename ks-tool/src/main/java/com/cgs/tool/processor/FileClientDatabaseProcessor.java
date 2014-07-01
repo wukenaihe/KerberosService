@@ -74,7 +74,7 @@ public class FileClientDatabaseProcessor {
 		FileClientDatabaseProcessor f = new FileClientDatabaseProcessor();
 
 		try {
-			f.save("secondFep", "123456",null);
+//			f.save("secondFep", "123456",null);
 			f.show(null);
 		} catch (Exception e) {
 			e.printStackTrace();

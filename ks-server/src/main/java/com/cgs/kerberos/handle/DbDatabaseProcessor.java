@@ -1,6 +1,5 @@
 package com.cgs.kerberos.handle;
 
-import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;

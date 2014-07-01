@@ -38,7 +38,8 @@ public class KerberosClientServerImpl implements KerberosClientServer {
 		
 		ThirdRequestInformation thirdRequestInformation = new ThirdRequestInformation();
 		String serverName = secondResponseWrapper.getSecondResponseBody().getSeverName();
-		thirdRequestInformation.setClientName(serverName);
+		String clientName=cdp.getName();
+		thirdRequestInformation.setClientName(clientName);
 		thirdRequestInformation.setTimeStamp(new Date());
 		logger.debug("Create thirdRequestInformation request for "+serverName);
 
@@ -82,7 +83,7 @@ public class KerberosClientServerImpl implements KerberosClientServer {
 		String clientName1 = st.getClientName();
 		String clientName2 = thirdRequestInformation.getClientName();
 		if (clientName1 == null || clientName2 == null || !clientName1.equals(clientName2)) {
-			throw new InvalidStException("Invalid Service Ticket. Request client name is different from service ticket's client name");
+			throw new InvalidStException("Invalid Service Ticket. Request client name is different from service ticket's client name. Client name is "+clientName2+" Service ticket's client name is "+clientName1);
 		}
 
 		// 检查请求时间与当前时间是否超过5分钟
